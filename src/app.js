@@ -8,6 +8,7 @@ const startMetricsServer = require("./metrics");
 const client = require("prom-client")
 const logger = require('./logger');
 
+// a comment
 class App {
   constructor() {
     this.app = express();
