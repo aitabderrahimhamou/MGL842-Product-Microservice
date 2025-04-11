@@ -3,19 +3,18 @@
   hosts: product_microservices
   become: true
   tasks:
+    - name: Pull latest Docker image
+      community.docker.docker_image:
+        name: hamou99/ecommerce-product-microservice:latest
+        source: pull
+        force_source: true
 
     - name: Stop and remove old container if exists
       community.docker.docker_container:
         name: product-microservice
         state: absent
         force_kill: true
-
-    - name: Pull latest Docker image
-      community.docker.docker_image:
-        name: hamou99/ecommerce-product-microservice:latest
-        source: pull
-
-
+        
     - name: Run new container
       community.docker.docker_container:
         name: product-microservice
