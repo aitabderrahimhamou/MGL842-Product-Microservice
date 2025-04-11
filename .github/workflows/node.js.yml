@@ -42,3 +42,9 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-product-microservice:latest
+
+    - name: Run Ansible Playbook
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: "False"
+      run: |
+        ansible-playbook -i hosts.ini deploy_container.yml
