@@ -13,12 +13,3 @@
         name: product-microservice
         state: absent
         force_kill: true
-
-    - name: Run new container
-      community.docker.docker_container:
-        name: product-microservice
-        image: hamou99/ecommerce-product-microservice:latest
-        state: started
-        restart_policy: always
-        ports:
-          - "3001:3001"
