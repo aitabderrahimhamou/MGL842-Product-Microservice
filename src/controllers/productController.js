@@ -159,7 +159,7 @@ class ProductController {
       }
       const products = await Product.find({});
 
-      res.status(200).json("retourner les produits au lieu des produits bb");
+      res.status(200).json("retourner les produits au lieu des produits bebe");
     } catch (error) {
       logger.error("Server error")
       console.error(error);
