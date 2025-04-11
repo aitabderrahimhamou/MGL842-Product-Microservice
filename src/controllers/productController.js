@@ -159,7 +159,7 @@ class ProductController {
       }
       const products = await Product.find({});
 
-      res.status(200).json("what now ?");
+      res.status(200).json("what now bb ?");
     } catch (error) {
       logger.error("Server error")
       console.error(error);
