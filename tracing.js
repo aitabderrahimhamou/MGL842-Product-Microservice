@@ -6,7 +6,7 @@ const { Resource } = require('@opentelemetry/resources');
 const { SEMRESATTRS_SERVICE_NAME, SEMRESATTRS_SERVICE_VERSION } = require('@opentelemetry/semantic-conventions');
 
 const traceExporter =  new OTLPTraceExporter({
-  url: 'http://localhost:4318/v1/traces'
+  url: 'https://0218-142-137-160-192.ngrok-free.app/v1/traces'
 })
 const sdk = new opentelemetry.NodeSDK({
     resource: new Resource({

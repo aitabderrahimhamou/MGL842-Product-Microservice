@@ -19,18 +19,9 @@ router.post("/", isAuthenticated, (req, res) => {
 });
 router.post("/buy", isAuthenticated, async (req, res) => {
     try {
-        
-        let response = await axios.get(`http://localhost:4000/variable`);
-        console.log("executing the route", response.data.value)
-        if (response.data.value == 2) {
-            await axios.post(`http://localhost:4000/variable/increment`);
-            console.log("Preventing event E2")
-            return res.status(500).json({error: "Internal server error"})
-        }
         logger.info("PRODUCT SERVICE - POST /buy on service products. <E2>")
         productController.createOrder(req, res)
     } catch (error) {
-        console.log("yaweddi dkhal")
         logger.error("PRODUCT SERVICE - POST /buy on service products. <E2>")
         return res.status(500).json({error: "Internal server error"})
     }

@@ -5,13 +5,7 @@ const axios = require("axios")
 
 
 async function isAuthenticated (req, res, next) {
-  let response = await axios.get(`http://localhost:4000/variable`);
-    
-  if (response.data.value == 1) {
-    console.log("Preventing event E1")
-    await axios.post(`http://localhost:4000/variable/increment`);
-    return res.status(500).json({ error: "Preventing event E1" })
-  }
+  
   logger.info("PRODUCT SERVICE - middleware isAuthenticated on service products. <E1>")
   // Check for the presence of an authorization header
   const authHeader = req.headers.authorization;

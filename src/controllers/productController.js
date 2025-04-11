@@ -68,12 +68,6 @@ class ProductController {
 
   async createOrder(req, res, next) {
     
-    let response = await axios.get(`http://localhost:4000/variable`);
-    if (response.data.value == 3) {
-      await axios.post(`http://localhost:4000/variable/increment`);
-      console.log("Preventing event E3")
-      return res.status(500).send("Preventing event E3")
-    }
     logger.info("PRODUCT SERVICE - createOrder in controller productController on service products. <E3>")
     console.log('Creating the order')
     try {
@@ -90,11 +84,6 @@ class ProductController {
       console.log("Fetching the products from the database")
       const products = await Product.find({ _id: { $in: ids } });
       
-      if (response.data.value == 4) {
-        await axios.post(`http://localhost:4000/variable/increment`);
-        console.log("Preventing event E4")
-        return res.status(500).send("Preventing event E4")
-      }
       logger.info("PRODUCT SERVICE - fetched products from db in controller productController on service products. <E4>")
   
       console.log("Moving the order to the pending state")
@@ -116,21 +105,11 @@ class ProductController {
         orderId, // include the order ID in the message to orders queue
       });
 
-      if (response.data.value == 5) {
-        await axios.post(`http://localhost:4000/variable/increment`);
-        console.log("Preventing event E5")
-        return res.status(500).send("Preventing event E5")
-      }
       logger.info("PRODUCT SERVICE - publishing products to queue orders in controller productController on service products. <E5>")
 
       messageBroker.consumeMessage("products", async (data) => {
 
 
-        if (response.data.value == 13) {
-          await axios.post(`http://localhost:4000/variable/increment`);
-          console.log("Preventing event E13")
-          return res.status(500).json({error: "internal server error"})
-        }
         logger.info("PRODUCT SERVICE - order consumed from queue products in controller productController on service product. <E13>")
         const orderData = JSON.parse(JSON.stringify(data));
         const { orderId } = orderData;
@@ -142,22 +121,13 @@ class ProductController {
         } else {
         }
       });
-      if (response.data.value == 7) {
-        await axios.post(`http://localhost:4000/variable/increment`);
-        console.log("Preventing event E7")
-        return res.status(500).json({error: "internal server error"})
-      }
+      
       logger.info("PRODUCT SERVICE - consuming order from queue products in controller productController on service products. <E7>")
       // Long polling until order is completed
       let order = this.ordersMap.get(orderId);
       while (order.status !== 'completed') {
         await new Promise(resolve => setTimeout(resolve, 1000)); // wait for 1 second before checking status again
         order = this.ordersMap.get(orderId);
-      }
-      if (response.data.value == 14) {
-        await axios.post(`http://localhost:4000/variable/increment`);
-        console.log("Preventing error E14")
-        return res.status(500).json({error: "internal server error"})
       }
       logger.info("PRODUCT SERVICE - successfully created order in controller productController on service products. <E14>")
       // Once the order is marked as completed, return the complete order details

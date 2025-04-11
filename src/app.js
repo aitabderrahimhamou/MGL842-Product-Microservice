@@ -99,7 +99,7 @@ class App {
   }
 
   start() {
-    this.server = this.app.listen(3001, () =>{
+    this.server = this.app.listen(3001, '0.0.0.0', () =>{
       //logger.info(`executing method start from service product`);
       console.log("Server started on port 3001")
     }

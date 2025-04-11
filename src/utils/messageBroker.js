@@ -12,7 +12,7 @@ class MessageBroker {
 
     setTimeout(async () => {
       try {
-        const connection = await amqp.connect("amqp://127.0.0.1:5672");
+        const connection = await amqp.connect("amqp://18.188.165.112:5672/");
         this.channel = await connection.createChannel();
         await this.channel.assertQueue("products");
         console.log("RabbitMQ connected");
@@ -35,12 +35,6 @@ class MessageBroker {
         queue,
         Buffer.from(JSON.stringify(message))
       );
-      let response = await axios.get(`http://localhost:4000/variable`);
-      if (response.data.value == 6) {
-        console.log("Preventing event E6")
-        await axios.post(`http://localhost:4000/variable/increment`);
-        throw new Error("Preventing event E6")
-      }
       logger.info("RABBITMQ - message published to rabbitmq queue " + queue + " in MessageBroker. <E6>")
     } catch (err) {
       console.log(err);
