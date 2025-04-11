@@ -3,13 +3,24 @@
   hosts: product_microservices
   become: true
   tasks:
-    - name: Pull latest Docker image
-      community.docker.docker_image:
-        name: hamou99/ecommerce-product-microservice:latest
-        source: pull
 
     - name: Stop and remove old container if exists
       community.docker.docker_container:
         name: product-microservice
         state: absent
         force_kill: true
+
+    - name: Pull latest Docker image
+      community.docker.docker_image:
+        name: hamou99/ecommerce-product-microservice:latest
+        source: pull
+
+
+    - name: Run new container
+      community.docker.docker_container:
+        name: product-microservice
+        image: hamou99/ecommerce-product-microservice:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "3001:3001"
