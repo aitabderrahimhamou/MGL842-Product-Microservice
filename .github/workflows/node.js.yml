@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -42,6 +41,18 @@ jobs:
 
     - name: Push Docker image
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/ecommerce-product-microservice:latest
+
+    - name: Install Ansible
+      run: sudo apt-get update && sudo apt-get install -y ansible
+
+    - name: Setup SSH key for Ansible
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H 18.188.109.84 >> ~/.ssh/known_hosts
+        ssh-keyscan -H 3.23.99.219 >> ~/.ssh/known_hosts
+        ssh-keyscan -H 18.226.181.198 >> ~/.ssh/known_hosts
 
     - name: Run Ansible Playbook
       env:
